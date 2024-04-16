@@ -3,3 +3,12 @@ img{
     height: 100px;
 
 }
+
+.table{
+    overflow:visible;
+    margin:30px 40px 30px 40px;
+  }
+  .noFav{
+    margin:0 auto;
+    padding:40px;
+  }

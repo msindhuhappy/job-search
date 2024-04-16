@@ -1,13 +1,13 @@
 <table class="table">
   <tbody>
     <tr *ngFor="let job of jobList">
-      <td><img src="{{job.companyLogo}}" alt="job Logo"></td>
-      <td><a (click)="jobDetail(job)">
+      <td class="col-lg-2"><img src="{{job.companyLogo}}" alt="job Logo"></td>
+      <td class="col-lg-6"><a (click)="jobDetail(job)">
           <h3>{{job.title}}</h3>
         </a>
         <div>Company: {{job.companyName}} Rerence:{{job.reference}}</div>
       </td>
-      <td><span class="fa fa-star" id="star-{{job.id}}" (click)="favoriteSelected(job)"
+      <td class="col-lg-4"><span class="fa fa-star" id="star-{{job.id}}" (click)="favoriteSelected(job)"
           [ngClass]="{'active': job.isFavSelected}"></span></td>
     </tr>
   </tbody>
