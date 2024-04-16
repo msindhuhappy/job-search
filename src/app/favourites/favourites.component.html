@@ -1,0 +1,15 @@
+<div *ngIf="isFavouriteJob">
+    <table class="table">
+        <tbody>
+            <tr *ngFor="let job of favoriteJobList">
+                <th scope="row"><img src="{{job.companyLogo}}" alt="job Logo"></th>
+                <td><a (click)="jobDetail(job)">
+                        <h3>{{job.title}}</h3>
+                    </a>
+                    <div>Company: {{job.companyName}} Rerence:{{job.reference}}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="!isFavouriteJob">{{noJobs}}</div>
