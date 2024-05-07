@@ -14,9 +14,7 @@ export class FavouritesComponent implements OnInit {
   noJobs: string = 'No Favorite Jobs are available';
   isFavouriteJob: boolean = false;
   favoriteJobList: JobDetail[] = [];
-  constructor(private js: JobDetailsService, private router: Router) {
-
-  }
+  constructor(private js: JobDetailsService, private router: Router) { }
   ngOnInit(): void {
     if (this.js.favoriteList.length !== 0) {
       this.isFavouriteJob = true;
@@ -26,8 +24,9 @@ export class FavouritesComponent implements OnInit {
       this.noJobs = "No Favorite Jobs are available";
     }
   }
-  jobDetail(job: JobDetail) {
+  jobDetail(job: JobDetail, jobId: number) {
     this.js.SelectedJobItem = job;
-    this.router.navigate(['/jobDetails']);
+    localStorage.setItem("SelectedJobItem", JSON.stringify(job));
+    this.router.navigate(['/jobDetails', jobId]);
   }
 }
