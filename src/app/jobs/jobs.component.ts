@@ -16,12 +16,11 @@ export class JobsComponent implements OnInit {
   jobList: JobDetail[] = [];
   favorites: JobDetail[] = [];
   isSelected: boolean = false;
-  constructor(private jobService: JobDetailsService, private router: Router) {
-
-  }
+  constructor(private jobService: JobDetailsService, private router: Router) {  }
   ngOnInit(): void {
     if (this.jobService.SelectedJobList.length !== 0) {
       this.jobList = this.jobService.wholeJobList;
+      localStorage.setItem("wholeJobList", JSON.stringify(this.jobList))
     }
     else {
       this.getJobList();
@@ -32,6 +31,7 @@ export class JobsComponent implements OnInit {
     this.jobService.getJobDetails().subscribe(res => {
       this.jobList = res;
       this.jobService.wholeJobList = this.jobList;
+      localStorage.setItem("wholeJobList", JSON.stringify(this.jobList))
     })
   }
   removeDuplicates(arr: JobDetail[]): JobDetail[] {
@@ -50,68 +50,43 @@ export class JobsComponent implements OnInit {
     const listItem = this.jobList.filter(x => x.id === job.id);
     if (listItem[0].isFavSelected) {
       listItem[0].isFavSelected = false;
+      localStorage.setItem("isFavSelected", JSON.stringify(listItem[0].isFavSelected))
     }
     else {
       listItem[0].isFavSelected = true;
+      localStorage.setItem("isFavSelected", JSON.stringify(listItem[0].isFavSelected))
     }
     if (job.isFavSelected) {
-      this.addFavorite(job)
+      this.addFavorite(job);
+      localStorage.setItem("isFavSelected", JSON.stringify(job.isFavSelected))
     }
     if (!job.isFavSelected) {
-      this.removeFavorite(job)
+      this.removeFavorite(job);
+      localStorage.setItem("isFavSelected", JSON.stringify(job.isFavSelected))
     }
   }
   addFavorite(job: JobDetail) {
     if (!this.favorites.includes(job)) {
       this.favorites.push(job);
-
       this.jobService.favoriteList = this.favorites;
       this.jobService.SelectedJobList = this.removeDuplicates(this.jobService.favoriteList);
+      localStorage.setItem("favoriteList", JSON.stringify(this.favorites));
+      localStorage.setItem("SelectedJobList", JSON.stringify(this.removeDuplicates(this.jobService.favoriteList)));
     }
   }
   removeFavorite(job: JobDetail) {
     this.favorites = this.jobService.SelectedJobList.filter(favorite => favorite.id !== job.id)
     console.log("fav List", this.favorites);
-    // const jobIn=this.jobList.find(j=>j.id===job.id);
-    // if(jobIn){
-    //   jobIn.isFavSelected=false;
-    // }    
     job.isFavSelected = false;
-
-
     this.jobService.favoriteList = this.favorites;
     this.jobService.SelectedJobList = this.jobService.favoriteList;
+    localStorage.setItem("favoriteList", JSON.stringify(this.favorites));
+    localStorage.setItem("SelectedJobList", JSON.stringify(this.jobService.favoriteList));
   }
-  // favoriteSelected(data: JobDetail) {
-  //   const listItem = this.jobList.filter(x => x.id === data.id);
-  //   if (listItem[0].isFavSelected) {
-  //     listItem[0].isFavSelected = false;
-  //   }
-  //   else {
-  //     listItem[0].isFavSelected = true;
-  //   }
-  //   this.favorites.push(data);      
-  //   data.isFavSelected=true;
-  //   this.jobService.isFavSelected=data.isFavSelected;
-  //   this.jobService.favoriteList=this.favorites;
-  //   this.jobService.SelectedJobList=this.removeDuplicates(this.jobService.favoriteList);
-  //   console.log("fav List", this.jobService.favoriteList);
-  //   console.log("selected List", this.jobService.SelectedJobList);
-  //   console.log("status icon List", this.jobService.isFavSelected);
-  // }
 
-  // removeFavorites(data:JobDetail){
-  //   data.isFavSelected=false;
-  //   this.jobService.isFavSelected=data.isFavSelected;
-  //   this.favorites=this.favorites.filter(y => y.id !== data.id);
-  //   this.jobService.favoriteList=this.favorites;
-  //   console.log("fav List", this.jobService.favoriteList);
-  //   console.log("selected List", this.jobService.SelectedJobList);
-  //   console.log("status icon List", this.jobService.isFavSelected);
-  // }
-
-  jobDetail(job: JobDetail) {
+  jobDetail(job: JobDetail, jobId: number) {
     this.jobService.SelectedJobItem = job;
-    this.router.navigate(['/jobDetails']);
+    localStorage.setItem("SelectedJobItem", JSON.stringify(job));
+    this.router.navigate(['/jobDetails', jobId]);
   }
 }
