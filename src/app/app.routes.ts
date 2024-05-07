@@ -8,6 +8,5 @@ export const routes: Routes = [
     { path: '', redirectTo: '/jobs', pathMatch: 'full' },
     { path: 'jobs', component: JobsComponent },
     { path: 'favourite', component: FavouritesComponent },
-    { path: 'jobDetails', component: JobDetailsComponent }
-
+    { path: 'jobDetails/:id', component: JobDetailsComponent }
 ];
