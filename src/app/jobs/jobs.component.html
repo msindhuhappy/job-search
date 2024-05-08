@@ -7,8 +7,14 @@
         </a>
         <div>Company: {{job.companyName}} Rerence:{{job.reference}}</div>
       </td>
-      <td><span class="fa fa-star" id="star-{{job.id}}" (click)="favoriteSelected(job)"
-          [ngClass]="{'active': job.isFavSelected}"></span></td>
+      <td>
+        <!-- <span class="fa fa-star" id="star-{{job.id}}" (click)="favoriteSelected(job)"
+          [ngClass]="{'active': job.isFavSelected}"></span>
+         -->
+         <span class="fa fa-star" id="star-{{job.id}}" (click)="addToFavorites(job)"
+          [ngClass]="{'active': job.isFavSelected}"></span>
+        
+        </td>
     </tr>
   </tbody>
 </table>
